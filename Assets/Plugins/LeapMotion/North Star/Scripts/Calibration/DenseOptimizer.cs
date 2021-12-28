@@ -26,6 +26,8 @@ namespace Leap.Unity.AR.Testing
         [NonSerialized]
         public NelderMeadRoutine solver;
 
+        private bool isStopping = false;
+
         [Serializable]
         public struct ListWrapper
         {
@@ -65,7 +67,19 @@ namespace Leap.Unity.AR.Testing
         }
         public void StopSolve()
         {
-            if (solver != null) { calibration.StopAllCoroutines(); StopAllCoroutines(); solver = null; }
+            StartCoroutine(StopSolveRoutine());
+        }
+
+        public IEnumerator StopSolveRoutine()
+        {
+            isStopping = true;
+            if (solver != null)
+            {
+                yield return new WaitUntil(() => solver.steppingSolver == false);
+                calibration.StopAllCoroutines();
+                solver = null;
+            }
+            isStopping = false;
         }
 
         IEnumerator StartNelderMead()
@@ -87,7 +101,7 @@ namespace Leap.Unity.AR.Testing
             solver.constructRightAngleSimplex(solver.simplexVertices[0].coordinates, 0.001f);
             for (int i = 0; i < 10; i++) solver.stepSolver(); */
             //if (Input.GetKeyDown(key)) ToggleSolve();
-            if (solver != null && !solver.steppingSolver)
+            if (solver != null && !solver.steppingSolver && isStopping == false)
             {
                 StartCoroutine(solver.stepSolver());
             }

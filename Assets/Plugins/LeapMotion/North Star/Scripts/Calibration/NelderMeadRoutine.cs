@@ -162,6 +162,7 @@ public class NelderMeadRoutine
         //TODO: Replace with an insertion sort of simplexVertices[simplexVertices.Count - 1] (except during Shrink)
         simplexVertices.Sort((x, y) => x.cost.CompareTo(y.cost));
         steppingSolver = false;
+        yield return null; //so we can time stop
     }
 
     //This creates a right-angle simplex around the "initial vertex" position
@@ -188,32 +189,18 @@ public class NelderMeadRoutine
 
     IEnumerator setVertexCost(Vertex vert)
     {
-        isBottomRigel = false;
-        //yield return new WaitForSeconds(1f);
-        preCostFunc(vert.coordinates);
-        //yield return new WaitForSeconds(0.25f);//TODO
-        yield return topCam.ReadRoutine();
-        yield return null;
-        vert.cost = postCostFunc() * 1.2f;
-        if (isLeft)
-        {
-            //yield return new WaitForSeconds(0.1f);
-            //rigelCalib.leapImageRetriever.UpdateDeviceIDTexture(rigelCalib.calibrationDevices[2].deviceID);
-        }
-        //Debug.Log("Top Image Cost: "+ vert.cost);
-
         isBottomRigel = true;
-        //yield return new WaitForSeconds(1f);
         preCostFunc(vert.coordinates);
-        if (isLeft)
-        {
-            //yield return new WaitForSeconds(0.016f);
-            //rigelCalib.leapImageRetriever.UpdateDeviceIDTexture(rigelCalib.calibrationDevices[1].deviceID);
-        }
-        //yield return new WaitForSeconds(0.25f);//TODO
         yield return bottomCam.ReadRoutine();
         yield return null;
-        vert.cost += postCostFunc();
+        vert.cost = postCostFunc() / ((float)bottomCam.ScreenMask.Sum().Val0 / 255f);
+
+        isBottomRigel = false;
+        preCostFunc(vert.coordinates);
+        yield return topCam.ReadRoutine();
+        yield return null;
+        vert.cost += postCostFunc() / ((float)topCam.ScreenMask.Sum().Val0 / 255f)* 1.05f;
+        
         Debug.Log("Combined Image Cost: " + vert.cost);
     }
 

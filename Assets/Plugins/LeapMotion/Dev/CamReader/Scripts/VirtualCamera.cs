@@ -114,7 +114,7 @@ public class VirtualCamera : MonoBehaviour
         ScreenMask = new Mat();
         Cv2.Threshold(heightCalibration, ScreenMask, 0, 255, ThresholdTypes.Binary);
         ScreenMask.SetTo(0, monitorMask);
-        Cv2.Erode(ScreenMask, ScreenMask, Mat.Ones(7, 7, MatType.CV_8UC1));
+        //Cv2.Erode(ScreenMask, ScreenMask, Mat.Ones(7, 7, MatType.CV_8UC1)); //???
         ScreenMask.ConvertTo(ScreenMask, MatType.CV_8UC1);
 
         screenMapY = new Mat();
@@ -123,7 +123,7 @@ public class VirtualCamera : MonoBehaviour
         widthCalibration.ConvertTo(screenMapX, MatType.CV_32FC1, (screenTexture.width - 1) / 65535f * 0.5f);
 
         Mat screenMapXShift = Mat.Zeros(screenMapX.Height, screenMapX.Width, MatType.CV_32FC1);
-        screenMapXShift.ColRange(screenMapX.Width >> 1, screenMapX.Width).SetTo((screenTexture.width - 1) * 0.5f);
+        screenMapXShift.ColRange(screenMapX.Width >> 1, screenMapX.Width).SetTo((screenTexture.width - 1) * 0.5f); //TODO check!
         Cv2.Add(screenMapX, screenMapXShift, screenMapX);
         screenMapXShift.Release();
 

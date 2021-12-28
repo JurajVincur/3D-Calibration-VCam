@@ -101,12 +101,12 @@ namespace Leap.Unity.AR {
       }
     }
 
-    public void resetEyes() {
+    public void resetEyes() { //TODO check, currently setting pos to up
       enabled = true;
       Start();
-      ipd = 0.064f;
-      heightOffset = -0.011f;
-      depthOffset = -0.005f;
+      this.ipd = rightEyeIPDTransform.localPosition.x * 2f;
+      heightOffset = 0.0075f;//-0.011f;
+      depthOffset = 0f;//-0.005f;
       RefreshIPD();
     }
 
