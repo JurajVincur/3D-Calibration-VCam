@@ -27,3 +27,8 @@ Steps:
 18. Open project in Unity, run scene Callibration-Vcam, do v1 without 2) Create Reflector Mask
 
 https://www.youtube.com/watch?v=SqglkrRwO90
+
+Motorized rig files:
+- [model](https://www.tinkercad.com/things/e5AmGILqEts-motorized-pns-calibration-rig)
+- [code](https://github.com/JurajVincur/pnsutils/tree/main/calibrationRig)
+- [alternative mount](https://www.tinkercad.com/things/dLEQhVlKpmY-pns-calibration-rig-mount-single-camera)
