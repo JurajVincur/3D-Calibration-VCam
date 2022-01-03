@@ -24,7 +24,8 @@ Steps:
 15. Align ET cams using [eyeCameraAligner.py](https://github.com/JurajVincur/pnsutils/blob/main/eyeCameraAligner.py)
 16. Get relative poses between sensors based on observations from steps 6, 14, 15 using [kabschPoints.py](https://github.com/JurajVincur/pnsutils/blob/main/kabschPoints.py)
 17. Copy/move produced PNG files to root directory of this project
-18. Open project in Unity, run scene Callibration-Vcam, do v1 without 2) Create Reflector Mask
+18. Update [config.json](config.json) and [cameraCalibration.json](cameraCalibration.json) to match your setup. In my case distCoeffs are set to 0 because gradients are computed based on already undistorted images. If you are using only one stereo camera make sure that camera attributes are the same for both devices under deviceCalibrations.
+19. Open project in Unity, run scene Callibration-Vcam, do v1 without 2) Create Reflector Mask
 
 https://www.youtube.com/watch?v=SqglkrRwO90
 
